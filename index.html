@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>云端高亮总览</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      height: 100vh;
+      margin: 0;
+    }
+
+    aside {
+      width: 260px;
+      border-right: 1px solid #ddd;
+      padding: 12px;
+      overflow-y: auto;
+    }
+
+    main {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .site {
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .page {
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-left: 8px;
+      border-radius: 4px;
+    }
+
+    .page:hover {
+      background: #f0f0f0;
+    }
+
+    li {
+      line-height: 1.8;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <aside id="nav">加载中…</aside>
+  <main>
+    <h3 id="title">
+      <a id="titleLink" href="#" target="_blank" style="text-decoration:none;color:inherit;">
+        请选择页面
+      </a>
+    </h3>
+    <ul id="content"></ul>
+  </main>
+
+  <script>
+    const API = 'https://whoisteacher.infinitewux.workers.dev'
+
+    async function loadList() {
+      const res = await fetch(`${API}/list`)
+      const data = await res.json()
+
+      const nav = document.getElementById('nav')
+      nav.innerHTML = ''
+
+      Object.entries(data.sites).forEach(([host, paths]) => {
+        const site = document.createElement('div')
+        site.className = 'site'
+        site.textContent = host
+        nav.appendChild(site)
+
+        paths.forEach(path => {
+          const page = document.createElement('div')
+          page.className = 'page'
+          page.textContent = path
+          page.onclick = () => loadPage(host + path)
+          nav.appendChild(page)
+        })
+      })
+    }
+
+    function loadPage(domain) {
+      const url = `https://${domain}`
+
+      fetch(`${API}?domain=${encodeURIComponent(domain)}`)
+        .then(res => res.json())
+        .then(data => {
+          const link = document.getElementById('titleLink')
+          link.textContent = domain
+          link.href = url
+
+          const ul = document.getElementById('content')
+          ul.innerHTML = ''
+
+          data.words.forEach(w => {
+            const li = document.createElement('li')
+            li.textContent = w
+            ul.appendChild(li)
+          })
+        })
+    }
+
+
+    loadList()
+  </script>
+</body>
+
+</html>

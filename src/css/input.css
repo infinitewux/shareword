@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .site {
+    @apply font-bold mt-3;
+  }
+
+  .page {
+    @apply cursor-pointer p-1 ml-2 rounded hover:bg-gray-100;
+  }
+
+  .nav-item {
+    @apply border-b border-gray-100 py-1 leading-7;
+  }
+}

@@ -11,11 +11,14 @@
 <body class="font-sans flex h-screen m-0">
   <aside id="nav" class="w-64 border-r border-gray-300 p-3 overflow-y-auto">加载中…</aside>
   <main class="flex-1 p-4 overflow-y-auto">
-    <h3 id="title" class="mb-4">
-      <a id="titleLink" href="#" target="_blank" class="no-underline text-inherit">
-        请选择页面
-      </a>
-    </h3>
+    <div class="mb-4 flex items-center">
+      <h3 id="title" class="mr-4">
+        <a id="titleLink" href="#" target="_blank" class="no-underline text-inherit">
+          请选择页面
+        </a>
+      </h3>
+      <button id="export-xml" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">导出为 XML</button>
+    </div>
     <ul id="content"></ul>
   </main>
 
